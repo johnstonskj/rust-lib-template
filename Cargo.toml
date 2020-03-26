@@ -1,0 +1,28 @@
+[package]
+name = "package_name"
+version = "0.1.0"
+authors = ["{{ author_name }} <{{ author_email }}>"]
+edition = "2018"
+description = "{{ package_description }}"
+documentation = "https://docs.rs/{{ package_name }}/"
+repository = "https://github.com/johnstonskj/rust-{{ package_name }}.git"
+license = "MIT"
+readme = "README.md"
+publish = true
+
+[package.metadata.docs.rs]
+# This sets the default target to `x86_64-unknown-linux-gnu`
+# and only builds that target for documentation.
+targets = ["x86_64-unknown-linux-gnu"]
+
+#[badges.travis-ci]
+#branch = "master"
+#repository = "johnstonskj/rust-{{ package_name }}"
+
+[features]
+
+[dependencies]
+
+[[bin]]
+name = "main"
+src = "src/bin/main.rs"
