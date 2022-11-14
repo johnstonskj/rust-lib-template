@@ -7,6 +7,7 @@ description = "{{ package_description }}"
 documentation = "https://docs.rs/{{ package_name }}/"
 repository = "https://github.com/johnstonskj/rust-{{ package_name }}.git"
 license = "MIT"
+license-file = "LICENSE"
 readme = "README.md"
 publish = true
 
