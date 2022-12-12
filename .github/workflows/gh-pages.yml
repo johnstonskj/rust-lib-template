@@ -3,24 +3,30 @@ name: mdbook to pages
 on:
   push:
     branches: 
-      - main
+      - book
+
   pull_request:
     branches: 
-      - main
+      - book
+
+env:
+  CARGO_TERM_COLOR: always
+  CLICOLOR: 1
+  RUST_BACKTRACE: 1
 
 defaults:
   run:
     shell: bash
-    working-directory: ./book
+    working-directory: ./doc/book
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v4.2.2
 
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1.1.14
+        uses: peaceiris/actions-mdbook@v2
         with:
           mdbook-version: 'latest'
 
@@ -28,7 +34,7 @@ jobs:
         run: mdbook build
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3.8.0
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book/book
+          publish_dir: ./target/book

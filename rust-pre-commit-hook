@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+# ======================================================================
+# Functions
+# ======================================================================
+
+VERBOSE=0
+
+debug() {
+    if [[ $VERBOSE -gt 0 ]] ; then
+        printf "[DEBUG]: %s\n" "$*";
+    fi
+}
+
+info() { printf "[INFO]: %s\n" "$*"; }
+
+error() { printf "[ERROR]: %s\n" "$*" >&2; }
+
+fatal() {
+    local CODE=$1
+    shift
+    printf "[ERROR]: %s\n" "$*" >&2;
+    exit "${CODE}"
+}
+
+cargo_command() {
+    local MESSAGE=$1
+    shift
+    local COMMAND=$1
+    shift
+    if [[ "$PRE_COMMIT_IGNORE" == *"$COMMAND" ]] ; then
+        info "Ignoring command '$COMMAND'"
+    else
+        info "${MESSAGE}"
+        debug "Running: cargo ${COMMAND} $*"
+        if ! cargo "${COMMAND}" "$@" ; then
+            local ERR="Command 'cargo $COMMAND' failed"
+            fatal 2 "${ERR}"
+        fi
+    fi
+}
+
+# ======================================================================
+# Environment Variables
+# ======================================================================
+
+if grep -e "^[:space:]*\[workspace\]" ./Cargo.toml >/dev/null ; then
+    CARGO_WORKSPACE="--workspace"
+    SCOPE=workspace
+else
+    CARGO_WORKSPACE=""
+    SCOPE=package
+fi
+
+if [[ -z "${CARGO_FEATURES}" ]] ; then
+    CARGO_FEATURES="--all-features"
+fi
+
+if [[ -z "${CARGO_TARGETS}" ]] ; then
+    CARGO_TARGETS="--all-targets"
+fi
+
+# ======================================================================
+# Initialization
+# ======================================================================
+
+HOOK_NAME=$(basename $0)
+debug "Running as hook $HOOK_NAME"
+
+if [[ ! -f ./Cargo.toml ]] ; then
+    fatal 1 "Not running in package or workspace root (cwd=$(pwd))"
+fi
+
+# ======================================================================
+# Actual Checks
+# ======================================================================
+
+cargo_command "Running security audit" audit
+
+cargo_command "Checking ${SCOPE}" check ${CARGO_WORKSPACE} "${CARGO_TARGETS}" "${CARGO_FEATURES}"
+
+cargo_command "Formatting ${SCOPE}" fmt --all -- --check
+
+cargo_command "Linting ${SCOPE}" clippy ${CARGO_WORKSPACE} "${CARGO_TARGETS}" "${CARGO_FEATURES}" -- -D warnings
+
+for TEST_FEATURES in "" "--all-features" "--no-default-features" ; do
+    cargo_command "Testing ${SCOPE} (features ${TEST_FEATURES})" test ${CARGO_WORKSPACE} "${CARGO_TARGETS}" "${TEST_FEATURES}" --no-fail-fast
+done
+
+cargo_command "Documenting ${SCOPE}" doc "${CARGO_WORKSPACE}" "${CARGO_FEATURES}" --no-deps
+
+# cargo_command "Checking for outdated dependencies" outdated $CARGO_WORKSPACE --root-deps-only

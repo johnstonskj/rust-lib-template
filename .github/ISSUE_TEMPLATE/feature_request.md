@@ -9,7 +9,7 @@ assignees: ''
 
 ## Problem
 
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of what the problem is. Ex. I'm always frustrated when ...
 
 Include Issue links if they exist.
 

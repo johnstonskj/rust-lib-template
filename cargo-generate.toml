@@ -1,0 +1,40 @@
+[template]
+cargo_generate_version = ">=0.23.5"
+exclude = ["**/.DS_Store", "target/**", ".github/workflows/rust.yml"]
+
+[placeholders.package_description]
+prompt = "One-line package description"
+type = "string"
+
+[placeholders.package_version]
+prompt = "Package version (semver)"
+type = "string"
+regex = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+default = "0.1.0"
+
+[placeholders.use_git]
+prompt = "Initialize git?"
+type = "bool"
+default = true
+
+[conditional.'use_git == false']
+ignore = ["rust-pre-commit-hook"]
+
+[placeholders.has_book]
+prompt = "Include mdbook documentation?"
+type = "bool"
+default = true
+
+[conditional.'has_book == false']
+ignore = ["doc/book/book.toml", "doc/book/", ".github/workflows/gh-pages.yml"]
+
+[placeholders.gh-repo-prefix]
+prompt = "Github repository name prefix"
+type = "string"
+default = "rust-"
+
+[conditional.'crate_type == "lib"']
+ignore = ["src/main.rs"]
+
+[hooks]
+pre = ["hook-pre.rhai"]

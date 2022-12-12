@@ -2,11 +2,14 @@
 One-line description of this integration suite.
 */
 
-// use ...
+use pretty_assertions::assert_eq;
+use {{ crate_name }}::*;
 
 // ------------------------------------------------------------------------------------------------
-// Unit Tests
+// Integration Tests
 // ------------------------------------------------------------------------------------------------
 
 #[test]
-fn test_something() {}
+fn test_something() {
+    assert_eq!(true, false);
+}

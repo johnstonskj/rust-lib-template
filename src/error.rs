@@ -1,56 +1,115 @@
 /*!
-Provides a common `Error` and `Result` type and a set of common error messages.
-*/
+Provides this crate's [`Error`] and [`Result`] types as well as helper functions.
 
-use std::fmt::{Display, Formatter};
-use std::result::Result as StdResult;
+ */
+
+use std::{
+    error::Error as StdError,
+    fmt::{Debug, Display, Formatter, Result as FmtResult},
+    io::Error as IoError,
+};
 
 // ------------------------------------------------------------------------------------------------
 // Public Types
 // ------------------------------------------------------------------------------------------------
 
 ///
-/// `Error` type for this crate.
+/// The `Error` type for this crate.
 ///
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug)]
 pub enum Error {
-    Unknown,
+    /// An error was signaled by the standard library I/O functions.
+    IoError { source: std::io::Error },
+    /// Multiple errors were aggregated from some function below.
+    MultipleErrors { sources: Vec<Error> },
+    /// An unknown error occurred.
+    Unknown { message: String },
 }
 
 ///
-/// `Result` type for this crate.
+/// A `Result` type that specifically uses this crate's `Error`.
 ///
-pub type Result<T> = StdResult<T, Error>;
+pub type Result<T> = StdResult<Error, T>;
+
+// ------------------------------------------------------------------------------------------------
+// Public Functions
+// ------------------------------------------------------------------------------------------------
+
+/// Construct an `Error` from the provided source error.
+#[inline]
+pub fn io_error(source: IoError) -> Error {
+    Error::IoError { source }
+}
+
+/// Construct an `Error` from the provided message.
+#[inline]
+pub fn unknown_error<S: Into<String>>(message: S) -> Error {
+    Error::Unknown {
+        message: message.into(),
+    }
+}
 
 // ------------------------------------------------------------------------------------------------
 // Implementations
 // ------------------------------------------------------------------------------------------------
 
-///
-/// Required by convention to replace the deprecated `Error::description` function.
-///
 impl Display for Error {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
         write!(
             f,
             "{}",
             match self {
-                Error::Unknown => "An unknown error occurred",
+                Error::IoError { source } => format!("An I/O error occurred; source: {}", source),
             }
         )
     }
 }
 
-///
-/// Nothing more required unless you want to store the source of any error.
-///
-impl std::error::Error for Error {}
+impl StdError for Error {
+    fn source(&self) -> Option<&(dyn StdError + 'static)> {
+        match self {
+            Error::IoError { source } => Some(source),
+            _ => None,
+        }
+    }
+}
 
-///
-/// Turns `Err(Error::Unknown)` into `Error::Unknown.into()` which is sometimes more readable.
-///
-impl<T> Into<Result<T>> for Error {
-    fn into(self) -> Result<T> {
-        Err(self)
+// ------------------------------------------------------------------------------------------------
+// Implementations From
+// ------------------------------------------------------------------------------------------------
+
+impl From<IoError> for Error {
+    fn from(source: IoError) -> Self {
+        Self::IoError(source)
+    }
+}
+
+impl From<Error> for Error {
+    fn from(sources: Error) -> Self {
+        Self::MultipleErrors(vec![sources])
+    }
+}
+
+impl From<Vec<Error>> for Error {
+    fn from(sources: Vec<Error>) -> Self {
+        Self::MultipleErrors(sources)
+    }
+}
+
+impl From<&[Error]> for Error {
+    fn from(sources: &[Error]) -> Self {
+        Self::MultipleErrors(sources.to_vec())
+    }
+}
+
+impl FromIterator<Error> for Error {
+    fn from_iter<I: IntoIterator<Item = Error>>(iter: I) -> Self {
+        Self::MultipleErrors(iter.into_iter().collect())
+    }
+}
+
+impl From<String> for Error {
+    fn from(message: String) -> Self {
+        Self::Unknown(message)
     }
 }

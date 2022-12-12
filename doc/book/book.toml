@@ -1,0 +1,22 @@
+[book]
+title = "Package {{ project-name }} Documentation"
+description = "{{ package_description }}"
+authors = ["{{ authors }}"]
+language = "en"
+multilingual = false
+
+[rust]
+edition = "2021"
+
+[output.html]
+git-repository-url = "{{ gh-repo-url }}/tree/main/guide"
+edit-url-template = "{{ gh-repo-url }}/edit/main/guide/{path}"
+
+[output.html.search]
+limit-results = 20
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 2
+boost-paragraph = 1
+expand = true
+heading-split-level = 2
