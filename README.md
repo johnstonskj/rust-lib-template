@@ -100,5 +100,5 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
 
-See [CONTRIBUTING]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md) and the
-project's [CODE_OF_CONDUCT](https://github.com/johnstonskj/rust-lib-template/blob/main/CODE_OF_CONDUCT.md).
+See [CONTRIBUTING](https://github.com/johnstonskj/rust-lib-template/blob/main/template/CONTRIBUTING.md) and the
+project's [CODE_OF_CONDUCT](https://github.com/johnstonskj/rust-lib-template/blob/main/template/CODE_OF_CONDUCT.md).
