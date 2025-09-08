@@ -59,7 +59,18 @@ impl Display for Error {
             f,
             "{}",
             match self {
-                Error::IoError { source } => format!("An I/O error occurred; source: {}", source),
+                Self::IoError { source } => format!("An I/O error occurred; source: {}", source),
+                Self::MultipleErrors { sources } => {
+                    format!(
+                    "Multiple errors occurred:\n{}",
+                    err.iter()
+                        .enumerate()
+                        .map(|(i, e)| format!("{i:<3}. {e}"))
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                )
+                }
+                Self::Unknown { message } => format!("An unknown error occurred; message: {}", message
             }
         )
     }
@@ -68,7 +79,7 @@ impl Display for Error {
 impl StdError for Error {
     fn source(&self) -> Option<&(dyn StdError + 'static)> {
         match self {
-            Error::IoError { source } => Some(source),
+            Self::IoError { source } => Some(source),
             _ => None,
         }
     }

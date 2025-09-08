@@ -83,4 +83,6 @@ More detailed description, with
 // Modules
 // ------------------------------------------------------------------------------------------------
 
+pub mod error;
+
 pub mod another;
