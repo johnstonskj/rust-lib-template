@@ -1,33 +1,48 @@
-# Package `{{ crate_name }}`
+# Rust Template `rust-lib-template`
 
-{{ package_description }}
+A template for `cargo-generate` to create a new Rust package.
 
 [![Apache-2.0 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![MIT License](https://img.shields.io/badge/license-mit-118811.svg)](https://opensource.org/license/mit)
-[![Rust Workflow]({{ crate_repo_url }}/actions/workflows/rust.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/rust.yml>)
-[![Security Audit Workflow]({{ crate_repo_url }}/actions/workflows/security-audit.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/security-audit.yml>)
-[![Coverage Status]({{ crate_cov_url }}/branch/main/graph/badge.svg?token=1HGN6M4KIT)](<{{ crate_cov_url }}>)
-[![crates.io](https://img.shields.io/crates/v/{{ crate_name }}.svg)]({{ crate_url }})
-[![docs.rs](https://docs.rs/xml_dom/badge.svg)]({{ crate_doc_url }})
-[![GitHub stars](https://img.shields.io/github/stars/{{ gh-repo }}.svg)](<{{ crate_repo_url }}/stargazers>)
+[![GitHub stars](https://img.shields.io/github/stars/johnstonskj/rust-lib-template.svg)](<https://github.com/johnstonskj/rust-lib-template/stargazers>)
 
-Add a longer description here.
+## Template Content
 
-For information on contributing to this project, see the following.
+This template provides the following:
 
-1. Project [Code of Conduct]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
-1. Project [Contribution Guidelines]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md).
-1. Project [TODO Items](<{{ crate_repo_url }}/issues>) in Issues.
-1. Repository [Change Log]({{ crate_repo_url }}/blob/main/CHANGELOG.md).
-
-## Example
-
-TBD
-
-```rust
-```
-
-* TBD
+- Generic Project:
+  - `README.md`, including short form of licenses and contributing pointer.
+  - `LICENSE-APACHE`, `LICENSE-MIT` license files.
+  - `CODE_OF_CONDUCT.md`
+  - `CONTRIBUTING.md`
+- Rust library:
+  - `lib.rs` with extensive lint settings.
+  - `error.rs` with initial `Error` and `Return` implementations.
+  - `bin/main.rs` with skeleton; note this can be surpressed with the template's `has_cli` flag.
+  - `tests` folder with skeletons.
+  - `doc/book` mdbook skeleton; note this can be surpressed with the template's `has_book` flag.
+- Rust automation:
+  - `.rustfmt.toml`
+  - `cliff.toml`
+  - `deny.toml`
+  - `dist-workspace.toml`
+  - `release-plz.toml`
+- Git-related:
+  - `.gitignore` for Emacs, VSCode and Rust.
+  - `rust-pre-release-hook`, copy to `.git/hooks/` as `pre-release-hook` if you want.
+- Github-related:
+  - issue templates for *bug_report* and *feature_request*.
+  - template for *pull_request*.
+  - `settings.yml` for the repository itself if you use the [settings app](https://github.com/repository-settings).
+  - `dependabot.yml` config for [dependabot](https://github.com/dependabot).
+  - `mergify.yml` config for [mergify](https://docs.mergify.com/integrations/github/) to automate dependabot PRs.
+  - Workflows
+    - *mdbook to pages* build mdbook documentation and publish to Github pages. Note this can be surpressed with the template's `has_book` flag.
+    - *Release distributions* release binary distributions on Github release pages (uses `dist-workspace.toml`).
+    - *Release to crates.io* release versions to crates.io (uses `release-plz.toml` and `cliff.toml`).
+    - *Rust build and test* full build and test workflow (uses `.rustfmt.toml`).
+    - *Rust security audit* security audits, cargo **audit** and cargo **deny** (uses `deny.toml`).
+    - *Spell check* the typos tool.
 
 ## License(s)
 
@@ -37,7 +52,7 @@ licenses:
 ### Apache-2.0
 
 > ```text
-> Copyright {{ license-year }} {{ authors }}
+> Copyright 2025 Simon Johnston <johnstonskj@gmail.com>
 > 
 > Licensed under the Apache License, Version 2.0 (the "License");
 > you may not use this file except in compliance with the License.
@@ -52,12 +67,12 @@ licenses:
 > limitations under the License.
 > ```
 
-See the enclosed file [LICENSE-Apache]({{ crate_repo_url }}/blob/main/LICENSE-Apache).
+See the enclosed file [LICENSE-Apache](https://github.com/johnstonskj/rust-lib-template/blob/main/LICENSE-Apache).
 
 ### MIT
 
 > ```text
-> Copyright {{ license-year }} {{ authors }}
+> Copyright 2025 Simon Johnston <johnstonskj@gmail.com>
 > 
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the “Software”), to deal
@@ -77,7 +92,7 @@ See the enclosed file [LICENSE-Apache]({{ crate_repo_url }}/blob/main/LICENSE-Ap
 > SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 > ```
 
-See the enclosed file [LICENSE-MIT]({{ crate_repo_url }}/blob/main/LICENSE-MIT).
+See the enclosed file [LICENSE-MIT](https://github.com/johnstonskj/rust-lib-template/blob/main/LICENSE-MIT).
 
 ### Contributions
 
@@ -86,4 +101,4 @@ for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
 
 See [CONTRIBUTING]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md) and the
-project's [CODE_OF_CONDUCT]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
+project's [CODE_OF_CONDUCT](https://github.com/johnstonskj/rust-lib-template/blob/main/CODE_OF_CONDUCT.md).
