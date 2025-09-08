@@ -1,6 +1,12 @@
 [template]
 cargo_generate_version = ">=0.23.5"
-exclude = ["**/.DS_Store", "target/**", ".github/workflows/rust.yml"]
+exclude = [
+    "**/.DS_Store",
+    "target/**",
+    "cliff-in.toml",
+    "_github/workflows/rust.yml",
+    "_github/workflows/release-dist.yml",
+]
 
 [placeholders.package_description]
 prompt = "One-line package description"
@@ -37,4 +43,5 @@ default = "rust-"
 ignore = ["src/main.rs"]
 
 [hooks]
+post = ["hook-post.rhai"]
 pre = ["hook-pre.rhai"]

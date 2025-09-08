@@ -4,8 +4,7 @@
 header = """
 # Changelog\n
 All notable changes to this project will be documented in this file.
-See [conventional commits](https://www.conventionalcommits.org/) for commit
-guidelines.\n
+See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.\n
 """
 
 body = """
@@ -44,11 +43,10 @@ footer = """
 
 # Remove leading and trailing whitespaces from the changelog's body.
 trim = true
-
 # postprocessors
 postprocessors = [
     # Replace the placeholder `<REPO>` with a URL.
-    { pattern = '\$REPO', replace = "{{ crate_repo_url }}" }, # replace repository URL
+    { pattern = '\$REPO', replace = "CRATE_REPO_URL" }, # replace repository URL
 ]
 
 [git]
@@ -65,7 +63,7 @@ split_commits = false
 # An array of regex based parsers to modify commit messages prior to further processing.
 commit_preprocessors = [
     # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
-    #{ pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}]({{ crate_repo_url }}/issues/${2}))"},
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](CRATE_REPO_URL/issues/${2}))" },
 ]
 
 # An array of regex based parsers for extracting data from the commit message.
