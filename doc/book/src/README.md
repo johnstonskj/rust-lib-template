@@ -9,5 +9,5 @@ Here is the introduction to your book.
 ## Links
 
 - [Source Repository ({{ gh-repo }})]({{ gh-repo-url }})
-- [Crates.io](<https://crates.io/{{ crate_name }}>)
-- [Docs.rs](<https://docs.rs/{{ crate_name }}>)
+- [Crates.io]({{ crate_url }})
+- [Docs.rs]({{ crate_doc_url }})

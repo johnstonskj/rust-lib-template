@@ -1,10 +1,10 @@
 [package]
+authors = ["{{ authors }}"]
 name = "{{ crate_name }}"
 version = "{{ package_version }}"
-authors = ["{{ authors }}>"]
 description = """{{ package_description }}"""
-documentation = "https://docs.rs/{{ crate_name }}/"
-repository = "{{ gh-repo-url }}.git"
+documentation = "{{ crate_doc_url }}/"
+repository = "{{ crate_repo_url }}.git"
 license = "MIT/Apache-2.0"
 readme = "README.md"
 edition = "2021"
@@ -16,7 +16,7 @@ publish = true
 targets = ["x86_64-unknown-linux-gnu"]
 
 [features]
-cli = ["dep:structopt", "dep:tracing", "dep:tracing_subscriber"]
+cli = ["dep:structopt", "dep:tracing", "dep:tracing-subscriber"]
 
 [dependencies]
 structopt = { version = "0.3.26", optional = true }
@@ -30,3 +30,8 @@ required-features = ["cli"]
 
 [dev-dependencies]
 pretty_assertions = "1.4.1"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

@@ -3,26 +3,27 @@
 I'm really glad you're reading this, because we need volunteer developers to
 help this project continue to grow and improve.
 
-1. file [bugs]({{ gh-repo-url }}/issues/new?assignees=&labels=bug&template=bug_report.md) and
-   [enhancement requests]({{ gh-repo-url }}/issues/new?assignees=&labels=enhancement&template=feature_request.md)
+1. file [bugs]({{ crate_repo_url }}/issues/new?assignees=&labels=bug&template=bug_report.md) and
+   [enhancement requests]({{ crate_repo_url }}/issues/new?assignees=&labels=enhancement&template=feature_request.md)
 2. review the project documentation know if you find are issues, or missing
    content, there
 3. Fix or Add something and send us a pull request; you may like to pick up
-   one of the issues marked [help wanted]({{ gh-repo-url }}/labels/help%20wanted) or [good
-   first issue]({{ gh-repo-url }}/labels/good%20first%20issue) as an introduction.
-   Alternatively, [documentation]({{ gh-repo-url }}/labels/documentation) issues can be a
+   one of the issues marked [help wanted]({{ crate_repo_url }}/labels/help%20wanted) or [good
+   first issue]({{ crate_repo_url }}/labels/good%20first%20issue) as an introduction.
+   Alternatively, [documentation]({{ crate_repo_url }}/labels/documentation) issues can be a
    great way to understand the project and help improve the developer
    experience.
 
 ## Submitting changes
 
 We love pull requests from everyone. By participating in this project, you
-agree to abide by our [code of conduct](./CODE_OF_CONDUCT.md), and license
-files [Apache-2.0](../LICENSE-APACHE) and [MIT](../LICENSE-MIT).
+agree to abide by our [code of conduct]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md),
+and license files [Apache-2.0]({{ crate_repo_url }}/blob/main/LICENSE-APACHE)
+and [MIT]({{ crate_repo_url }}/blob/main/LICENSE-MIT).
 
 Fork, then clone the repo:
 
-    git clone git@github.com:{{ gh-repo }}.git
+    git clone git@github.com:{{ crate_repo_url }}.git
 
 Ensure you have a good Rust install, usually managed by
 [Rustup](https://rustup.rs/). You can ensure the latest tools with the
@@ -54,8 +55,8 @@ If you have made any changes to `Cargo.toml`, also check:
     cargo audit
     cargo outdated --workspace --root-deps-only
 
-Push to your fork and [submit a pull request]({{ gh-repo-url }}/compare/) using our
-[template](../.github/pull_request_template.md).
+Push to your fork and [submit a pull request]({{ crate_repo_url }}/compare/) using our
+[template]({{ crate_repo_url }}/blob/main/.github/pull_request_template.md).
 
 At this point you're waiting on us. We like to at least comment on pull
 requests within three business days (and, typically, one business day). We may

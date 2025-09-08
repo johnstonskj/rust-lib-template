@@ -9,8 +9,8 @@ multilingual = false
 edition = "2021"
 
 [output.html]
-git-repository-url = "{{ gh-repo-url }}/tree/main/guide"
-edit-url-template = "{{ gh-repo-url }}/edit/main/guide/{path}"
+git-repository-url = "{{ crate_repo_url }}/tree/main/doc/book"
+edit-url-template = "{{ crate_repo_url }}/edit/main/doc/book/{path}"
 
 [output.html.search]
 limit-results = 20

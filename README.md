@@ -4,21 +4,21 @@
 
 [![Apache-2.0 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![MIT License](https://img.shields.io/badge/license-mit-118811.svg)](https://opensource.org/license/mit)
-[![Rust Workflow]({{ gh-repo-url }}/actions/workflows/rust.yml/badge.svg)](<{{ gh-repo-url }}/actions/workflows/rust.yml>)
-[![Security Audit Workflow]({{ gh-repo-url }}/actions/workflows/security-audit.yml/badge.svg)](<{{ gh-repo-url }}/actions/workflows/security-audit.yml>)
-[![Coverage Status](https://codecov.io/gh/{{ gh-repo }}/branch/main/graph/badge.svg?token=1HGN6M4KIT)](<https://codecov.io/gh/{{ gh-repo }}>)
-[![crates.io](https://img.shields.io/crates/v/{{ crate_name }}.svg)](<https://crates.io/crates/{{ crate_name }}>)
-[![docs.rs](https://docs.rs/xml_dom/badge.svg)](<https://docs.rs/{{ crate_name }}>)
-[![GitHub stars](https://img.shields.io/github/stars/{{ gh-repo }}.svg)](<{{ gh-repo-url }}/stargazers>)
+[![Rust Workflow]({{ crate_repo_url }}/actions/workflows/rust.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/rust.yml>)
+[![Security Audit Workflow]({{ crate_repo_url }}/actions/workflows/security-audit.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/security-audit.yml>)
+[![Coverage Status]({{ crate_cov_url }}/branch/main/graph/badge.svg?token=1HGN6M4KIT)](<{{ crate_cov_url }}>)
+[![crates.io](https://img.shields.io/crates/v/{{ crate_name }}.svg)]({{ crate_url }})
+[![docs.rs](https://docs.rs/xml_dom/badge.svg)]({{ crate_doc_url }})
+[![GitHub stars](https://img.shields.io/github/stars/{{ gh-repo }}.svg)](<{{ crate_repo_url }}/stargazers>)
 
 Add a longer description here.
 
 For information on contributing to this project, see the following.
 
-1. Project [Code of Conduct](./doc/CODE_OF_CONDUCT.md).
-1. Project [Contribution Guidelines](./doc/CONTRIBUTING.md).
-1. Project [TODO Items](<{{ gh-repo-url }}/issues>) in Issues.
-1. Repository [Change Log](./doc/CHANGELOG.md).
+1. Project [Code of Conduct](./CODE_OF_CONDUCT.md).
+1. Project [Contribution Guidelines](./CONTRIBUTING.md).
+1. Project [TODO Items](<{{ crate_repo_url }}/issues>) in Issues.
+1. Repository [Change Log](./CHANGELOG.md).
 
 ## Example
 
@@ -52,7 +52,7 @@ licenses:
 > limitations under the License.
 > ```
 
-See the enclosed file [LICENSE-Apache](./LICENSE-Apache).
+See the enclosed file [LICENSE-Apache]({{ crate_repo_url }}/blob/main/LICENSE-Apache).
 
 ### MIT
 
@@ -77,10 +77,13 @@ See the enclosed file [LICENSE-Apache](./LICENSE-Apache).
 > SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 > ```
 
-See the enclosed file [LICENSE-MIT](./LICENSE-MIT).
+See the enclosed file [LICENSE-MIT]({{ crate_repo_url }}/blob/main/LICENSE-MIT).
 
 ### Contributions
 
 Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
+
+See [CONTRIBUTING]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md) and the
+project's [CODE_OF_CONDUCT]({{ crate_repo_url }}/blob/mainCODE_OF_CONDUCT.md).
