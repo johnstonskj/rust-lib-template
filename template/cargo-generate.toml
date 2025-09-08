@@ -4,8 +4,8 @@ exclude = [
     "**/.DS_Store",
     "target/**",
     "cliff-in.toml",
-    "_github/workflows/rust.yml",
-    "_github/workflows/release-dist.yml",
+    ".github/workflows/rust.yml",
+    ".github/workflows/release-dist.yml",
 ]
 
 [placeholders.package_description]
@@ -17,6 +17,11 @@ prompt = "Package version (semver)"
 type = "string"
 regex = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
 default = "0.1.0"
+
+[placeholders.gh-repo-prefix]
+prompt = "Github repository name prefix"
+type = "string"
+default = "rust-"
 
 [placeholders.use_git]
 prompt = "Initialize git?"
@@ -41,11 +46,6 @@ default = true
 
 [conditional.'has_cli == false']
 ignore = ["src/bin/main.rs", "src/bin/"]
-
-[placeholders.gh-repo-prefix]
-prompt = "Github repository name prefix"
-type = "string"
-default = "rust-"
 
 [conditional.'crate_type == "lib"']
 ignore = ["src/main.rs"]

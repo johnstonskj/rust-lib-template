@@ -6,6 +6,68 @@ A template for `cargo-generate` to create a new Rust package.
 [![MIT License](https://img.shields.io/badge/license-mit-118811.svg)](https://opensource.org/license/mit)
 [![GitHub stars](https://img.shields.io/github/stars/johnstonskj/rust-lib-template.svg)](<https://github.com/johnstonskj/rust-lib-template/stargazers>)
 
+## Installation
+
+Install [cargo-generate](https://github.com/cargo-generate/cargo-generate);
+installing cargo, if necessary, using [rustup](https://rustup.rs/).
+
+```bash
+❱ cargo install cargo-generate
+```
+
+### Usage
+
+The simplest form of the command is shown in the example below with the
+template identified using the Github `<username>/<reponame>` form. The
+`--allow-commands` flag is added as the template configuration executes
+a number of commands to get environment settings, which otherwise would
+prompt you each time whether you are OK with executing an external command.
+
+```bash
+❱ cargo generate johnstonskj/rust-lib-template --allow-commands
+🔧   Destination: /Users/skj/Projects/rust/mylib ...
+🔧   project-name: mylib ...
+🔧   Generating template ...
+🤷   One-line package description: My nice new shiny crate
+🤷   Package version (semver): 0.1.0
+✔ 🤷   Initialize git? · true
+✔ 🤷   Include mdbook documentation? · false
+✔ 🤷   Include command-line tool? · false
+🤷   Github repository name prefix: rust-
+🤷   Github user name: johnstonskj
+[ 1/37]   Done: ...
+```
+
+The name of the project can be specified using `--name` and the destination
+with `--init` for the current directory, `--destination` for a specified path,
+or the default is a directory with the same name as `--name` in the current
+directory.
+
+The rest of the *placeholder values* can be included on the command line using
+the `--define` flag. The following table is the set of placeholders in this
+template and the example following shows the tool operating in *silent* mode
+where all values are provided by the command-line arguments.
+
+| Placeholder           | Type    | Default | Description                   |
+|-----------------------|---------|---------|-------------------------------|
+| `package_description` | string  | None    | One-line package description  |
+| `package_version`     | string  | `0.1.0` | Package version (semver)      |
+| `gh-repo-prefix`      | string  | `rust-` | Github repository name prefix |
+| `use_git`             | boolean | `true`  | Initialize git?               |
+| `has_book`            | boolean | `true`  | Include mdbook documentation? |
+| `has_cli`             | boolean | `true`  | Include command-line tool?    |
+
+```bash
+❱ cargo generate johnstonskj/rust-lib-template \
+⋯⋯❱ --name crate-name \
+⋯⋯❱ --destination ./rust-crate-name \
+⋯⋯❱ --define package_description="My nice new shiny crate" \
+⋯⋯❱ --define has_book=false \
+⋯⋯❱ --define has_cli=false \
+⋯⋯❱ --allow-commands \
+⋯⋯❱ --silent
+```
+
 ## Template Content
 
 This template provides the following:
