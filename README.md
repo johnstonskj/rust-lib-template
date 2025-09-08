@@ -15,10 +15,10 @@ Add a longer description here.
 
 For information on contributing to this project, see the following.
 
-1. Project [Code of Conduct](./CODE_OF_CONDUCT.md).
-1. Project [Contribution Guidelines](./CONTRIBUTING.md).
+1. Project [Code of Conduct]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
+1. Project [Contribution Guidelines]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md).
 1. Project [TODO Items](<{{ crate_repo_url }}/issues>) in Issues.
-1. Repository [Change Log](./CHANGELOG.md).
+1. Repository [Change Log]({{ crate_repo_url }}/blob/main/CHANGELOG.md).
 
 ## Example
 
@@ -86,4 +86,4 @@ for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
 
 See [CONTRIBUTING]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md) and the
-project's [CODE_OF_CONDUCT]({{ crate_repo_url }}/blob/mainCODE_OF_CONDUCT.md).
+project's [CODE_OF_CONDUCT]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).

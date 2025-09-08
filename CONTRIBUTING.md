@@ -23,7 +23,7 @@ and [MIT]({{ crate_repo_url }}/blob/main/LICENSE-MIT).
 
 Fork, then clone the repo:
 
-    git clone git@github.com:{{ crate_repo_url }}.git
+    git clone {{ crate_repo_url }}.git
 
 Ensure you have a good Rust install, usually managed by
 [Rustup](https://rustup.rs/). You can ensure the latest tools with the

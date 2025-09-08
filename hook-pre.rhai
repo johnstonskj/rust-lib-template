@@ -25,7 +25,7 @@ variable::set(
 );
 
 let crate_name = variable::get("crate_name");
-variable::set("crate_url", `https//crates.io/crates/${crate_name}`);
+variable::set("crate_url", `https://crates.io/crates/${crate_name}`);
 variable::set("crate_cov_url", `https://codecov.io/gh/${crate_name}`);
 variable::set("crate_doc_url", `https://docs.rs/${crate_name}`);
 variable::set("crate_repo_url", variable::get("gh-repo-url"));

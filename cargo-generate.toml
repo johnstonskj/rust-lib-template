@@ -34,6 +34,14 @@ default = true
 [conditional.'has_book == false']
 ignore = ["doc/book/book.toml", "doc/book/", ".github/workflows/gh-pages.yml"]
 
+[placeholders.has_cli]
+prompt = "Include command-line tool?"
+type = "bool"
+default = true
+
+[conditional.'has_cli == false']
+ignore = ["src/bin/main.rs", "src/bin/"]
+
 [placeholders.gh-repo-prefix]
 prompt = "Github repository name prefix"
 type = "string"
