@@ -41,7 +41,7 @@ if ! variable::is_set("crate_url") {
     variable::set("crate_url", `https://crates.io/crates/${crate_name}`);
 }
 if ! variable::is_set("crate_cov_url") {
-    variable::set("crate_cov_url", `https://app.codecov.io/github/${github_repo}`);
+    variable::set("crate_cov_url", `https://codecov.io/github/${github_repo}`);
 }
 if ! variable::is_set("crate_doc_url") {
     variable::set("crate_doc_url", `https://docs.rs/${crate_name}`);

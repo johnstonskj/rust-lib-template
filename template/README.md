@@ -6,7 +6,7 @@
 [![MIT License](https://img.shields.io/badge/license-mit-118811.svg)](https://opensource.org/license/mit)
 [![Rust Workflow]({{ crate_repo_url }}/actions/workflows/rust.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/rust.yml>)
 [![Security Audit Workflow]({{ crate_repo_url }}/actions/workflows/security-audit.yml/badge.svg)](<{{ crate_repo_url }}/actions/workflows/security-audit.yml>)
-[![Coverage Status]({{ crate_cov_url }}/branch/main/graph/badge.svg?token=1HGN6M4KIT)](<{{ crate_cov_url }}>)
+[![Coverage Status]({{ crate_cov_url }}/graph/badge.svg?token=1HGN6M4KIT)](<{{ crate_cov_url }}>)
 [![crates.io](https://img.shields.io/crates/v/{{ crate_name }}.svg)]({{ crate_url }})
 [![docs.rs](https://docs.rs/xml_dom/badge.svg)]({{ crate_doc_url }})
 [![GitHub stars](https://img.shields.io/github/stars/{{ gh-repo }}.svg)](<{{ crate_repo_url }}/stargazers>)

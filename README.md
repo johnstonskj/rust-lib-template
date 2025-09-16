@@ -86,12 +86,13 @@ This template provides the following:
 - Rust automation:
   - `.rustfmt.toml`
   - `cliff.toml`
+  - `codecov.yml`
   - `deny.toml`
   - `dist-workspace.toml`
   - `release-plz.toml`
 - Git-related:
   - `.gitignore` for Emacs, VSCode and Rust.
-  - `rust-pre-release-hook`, copy to `.git/hooks/` as `pre-release-hook` if you want.
+  - `rust-pre-release-hook`, copy to `.git/hooks/` as `pre-release` if you want.
 - Github-related:
   - issue templates for *bug_report* and *feature_request*.
   - template for *pull_request*.
@@ -102,7 +103,7 @@ This template provides the following:
     - *mdbook to pages* build mdbook documentation and publish to Github pages. Note this can be surpressed with the template's `has_book` flag.
     - *Release distributions* release binary distributions on Github release pages (uses `dist-workspace.toml`).
     - *Release to crates.io* release versions to crates.io (uses `release-plz.toml` and `cliff.toml`).
-    - *Rust build and test* full build and test workflow (uses `.rustfmt.toml`).
+    - *Rust build and test* full build and test workflow (uses `.rustfmt.toml` and `codecov.yml`).
     - *Rust security audit* security audits, cargo **audit** and cargo **deny** (uses `deny.toml`).
     - *Spell check* the typos tool.
 
