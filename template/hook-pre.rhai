@@ -35,12 +35,13 @@ if ! variable::is_set("gh-repo-url") {
 }
 
 let crate_name = variable::get("crate_name");
+let repo_name = variable::get("gh-repo-name");
 
 if ! variable::is_set("crate_url") {
     variable::set("crate_url", `https://crates.io/crates/${crate_name}`);
 }
 if ! variable::is_set("crate_cov_url") {
-    variable::set("crate_cov_url", `https://codecov.io/gh/${crate_name}`);
+    variable::set("crate_cov_url", `https://codecov.io/gh/${repo_name}`);
 }
 if ! variable::is_set("crate_doc_url") {
     variable::set("crate_doc_url", `https://docs.rs/${crate_name}`);
