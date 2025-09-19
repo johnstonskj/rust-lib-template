@@ -13,13 +13,6 @@
 
 Add a longer description here.
 
-For information on contributing to this project, see the following.
-
-1. Project [Code of Conduct]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
-1. Project [Contribution Guidelines]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md).
-1. Project [TODO Items](<{{ crate_repo_url }}/issues>) in Issues.
-1. Repository [Change Log]({{ crate_repo_url }}/blob/main/CHANGELOG.md).
-
 ## Example
 
 TBD
@@ -27,7 +20,13 @@ TBD
 ```rust
 ```
 
-* TBD
+## Features
+
+| Name               | Dependencies                   | Description                                                            |
++--------------------+--------------------------------+------------------------------------------------------------------------+
+| *default*          | std, tracing, values-timestamp | Package default features.                                              |
+| std                | alloc                          | Enables the `std` library crate, the most common default.              |
+| alloc              |                                | Enables the `alloc` library crate, required in a `no_std` environment. |
 
 ## License(s)
 
@@ -85,5 +84,9 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
 
-See [CONTRIBUTING]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md) and the
-project's [CODE_OF_CONDUCT]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
+For information on contributing to this project, see the following.
+
+1. Project [Code of Conduct]({{ crate_repo_url }}/blob/main/CODE_OF_CONDUCT.md).
+1. Project [Contribution Guidelines]({{ crate_repo_url }}/blob/main/CONTRIBUTING.md).
+1. Project [TODO Items](<{{ crate_repo_url }}/issues>) in Issues.
+1. Repository [Change Log]({{ crate_repo_url }}/blob/main/CHANGELOG.md).

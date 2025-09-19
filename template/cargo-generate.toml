@@ -39,16 +39,13 @@ default = true
 [conditional.'has_book == false']
 ignore = ["doc/book/book.toml", "doc/book/", ".github/workflows/gh-pages.yml"]
 
-[placeholders.has_cli]
-prompt = "Include command-line tool?"
+[placeholders.use_no_std]
+prompt = "Include support for no_std?"
 type = "bool"
 default = true
 
-[conditional.'has_cli == false']
-ignore = ["src/bin/main.rs", "src/bin/"]
-
 [conditional.'crate_type == "lib"']
-ignore = ["src/main.rs"]
+ignore = ["src/bin/main.rs", "src/bin/"]
 
 [hooks]
 post = ["hook-post.rhai"]

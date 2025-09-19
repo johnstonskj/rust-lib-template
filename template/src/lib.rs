@@ -52,6 +52,22 @@ More detailed description, with
     drop_bounds,
     dyn_drop,
 )]
+{% if use_no_std %}
+#![no_std]
+
+#[cfg(any(test, feature = "alloc", not(feature = "std")))]
+extern crate alloc;
+/*
+ * The following is no longer supported as there is no known external crate named
+ * `std` after approximately edition 2018. However, it does make a nice logical
+ * follow-on from the line above for the `alloc` crate.
+ *
+ *  ```
+ * #[cfg(any(test, feature = "std"))]
+ * extern crate std;
+ * ```
+ */
+{% endif }
 
 // use ...
 

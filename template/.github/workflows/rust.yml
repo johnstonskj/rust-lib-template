@@ -20,32 +20,9 @@ env:
   CARGO_TERM_COLOR: always
   CLICOLOR: 1
   RUST_BACKTRACE: 1
+  WASMTIME_BACKTRACE_DETAILS: 1
 
 jobs:
-  publish:
-    name: Publish (dry-run)
-    needs: [test, docs]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        profile: minimal
-        override: true
-        
-    - uses: Swatinem/rust-cache@v1
-      
-    - name: Check publish
-      uses: actions-rs/cargo@v1
-      with:
-        command: publish
-        args: --dry-run --all-features
-
-      
   check_tests:
     name: Check for test types
     runs-on: ubuntu-latest
@@ -53,17 +30,64 @@ jobs:
       has_benchmarks: ${{ steps.check_benchmarks.outputs.has_benchmarks }}
       has_examples: ${{ steps.check_examples.outputs.has_examples }}
     steps:
-      - name: Check for benchmarks
-        id: check_benchmarks
-        run: test -d benchmarks && echo "has_benchmarks=1" || echo "has_benchmarks=" >> $GITHUB_OUTPUT
-        shell: bash
-        
-      - name: Check for examples
-        id: check_examples
-        run: test -d examples && echo "has_examples=1" || echo "has_examples=" >> $GITHUB_OUTPUT
-        shell: bash
+    - name: Check for benchmarks
+      id: check_benchmarks
+      run: test -d benchmarks && echo "has_benchmarks=1" || echo "has_benchmarks=" >> $GITHUB_OUTPUT
+      shell: bash
+      
+    - name: Check for examples
+      id: check_examples
+      run: test -d examples && echo "has_examples=1" || echo "has_examples=" >> $GITHUB_OUTPUT
+      shell: bash
 
-        
+
+  rustfmt:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+        components: rustfmt
+
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Check formatting
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt
+        args: --verbose --all -- --check
+
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+        components: clippy
+
+    - uses: Swatinem/rust-cache@v2
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: clippy
+        args: --verbose --message-format=human --workspace --all-features --all-targets -- -D warnings
+
+
   test:
     name: Test
     needs: [rustfmt, clippy]
@@ -76,30 +100,30 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v5
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: ${{ matrix.rust }}
         profile: minimal
         override: true
-        
-    - uses: Swatinem/rust-cache@v1
-      
+
+    - uses: Swatinem/rust-cache@v2
+
     - name: Build
       uses: actions-rs/cargo@v1
       with:
         command: build
-        args: --workspace ${{ matrix.test-features }}
-      
+        args: --verbose --workspace ${{ matrix.test-features }}
+
     - name: Test
       uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --workspace ${{ matrix.test-features }}
- 
-      
+        args: --verbose --workspace ${{ matrix.test-features }}
+
+
   benchmarks:
     name: Benchmarks
     needs: [rustfmt, clippy, check_tests]
@@ -107,158 +131,211 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        rust: ["stable"]
-    runs-on: ubuntu-latest
+        rust: ["stable", "beta", "nightly"]
+        test-features: ["", "--all-features", "--no-default-features"]
+    continue-on-error: ${{ matrix.rust != 'stable' }}
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v5
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: ${{ matrix.rust }}
         profile: minimal
         override: true
-        
-    - uses: Swatinem/rust-cache@v1
-      
+
+    - uses: Swatinem/rust-cache@v2
+
     - name: Run benchmarks with all features
       uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --workspace --benches --all-features --no-fail-fast
+        args: --verbose --workspace --benches ${{ matrix.test-features }} --no-fail-fast
 
-      
+
   examples:
     name: Examples
     needs: [rustfmt, clippy, check_tests]
     if: needs.check_tests.outputs.has_examples
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        rust: ["stable"]
+        rust: ["stable", "beta", "nightly"]
+        test-features: ["", "--all-features", "--no-default-features"]
+    continue-on-error: ${{ matrix.rust != 'stable' }}
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v5
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: ${{ matrix.rust }}
         profile: minimal
         override: true
-        
-    - uses: Swatinem/rust-cache@v1
-      
+
+    - uses: Swatinem/rust-cache@v2
+
     - name: Run examples with all features
       uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --workspace --examples --all-features --no-fail-fast
+        args: --verbose --workspace --examples ${{ matrix.test-features }} --no-fail-fast
+
 
   coverage:   
     name: Code Coverage
     needs: test
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Install Tarpaulin
+      run: cargo install cargo-tarpaulin
+
+    - name: Run cargo-tarpaulin
+      uses: actions-rs/cargo@v1
+      with:
+        command: tarpaulin
+        args: --verbose --workspace --all-features --out Xml -- --test-threads 1
+
+    - name: Upload to codecov.io
+      uses: codecov/codecov-action@v5.5.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report
+        path: cobertura.xml
+
+
+  wasm:   
+    name: WASM Test
+    needs: test
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        rust: ["stable"]
+        targets: ["wasm32-wasip1"]
+        test-features: ["", "--all-features", "--no-default-features"]
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v5
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ matrix.rust }}
-          override: true
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        target: ${{ matrix.targets }}
+        override: true
 
-      - name: Run cargo-tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          version: 0.22.0
-          args: --all-features -- --test-threads 1
+    - uses: Swatinem/rust-cache@v2
 
-      - name: Upload to codecov.io
-        uses: codecov/codecov-action@v1.0.2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Add wasmtime
+      uses: actions-rs/cargo@v1
+      with:
+        command: install
+        args: wasmtime-cli
 
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v1
-        with:
-          name: code-coverage-report
-          path: cobertura.xml
+    - name: Run Tests
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose --workspace ${{ matrix.test-features }} --target ${{ matrix.targets }}
 
-          
+
+  no_std:   
+    name: No-std Test
+    needs: test
+    strategy:
+      matrix:
+        targets: ["thumbv7m-none-eabi"]
+        test-features: ["", "--all-features", "--no-default-features"]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        target: ${{ matrix.targets }}
+        override: true
+
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Run Check
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+        args: --verbose --workspace ${{ matrix.test-features }} --target ${{ matrix.targets }}
+##
+##    - name: Run Tests
+##      uses: actions-rs/cargo@v1
+##      with:
+##        command: test
+##        args: --workspace ${{ matrix.test-features }} --target ${{ matrix.targets }}
+
+     
   docs:
     name: Document generation
     needs: [rustfmt, clippy]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v5
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
         profile: minimal
         override: true
-        
-    - uses: Swatinem/rust-cache@v1
-      
+
+    - uses: Swatinem/rust-cache@v2
+
     - name: Generate documentation
       uses: actions-rs/cargo@v1
       with:
         command: doc
-        args: --workspace --all-features --no-deps
+        args: --verbose --workspace --no-default-features --features std,fmt,repr-array,repr-base64,repr-string,repr-dump --no-deps
 
-      
-  rustfmt:
-    name: rustfmt
+
+  publish:
+    name: Publish (dry-run)
+    needs: [test, docs]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v5
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
         profile: minimal
         override: true
-        components: rustfmt
-              
-    - uses: Swatinem/rust-cache@v1
 
-    - name: Check formatting
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Check publish
       uses: actions-rs/cargo@v1
       with:
-        command: fmt
-        args: --all -- --check
-
-      
-  clippy:
-    name: clippy
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        profile: minimal
-        override: true
-        components: clippy
-              
-    - uses: Swatinem/rust-cache@v1
-
-    - uses: actions-rs/clippy-check@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        args: --workspace --all-features --all-targets -- -D warnings
+        command: publish
+        args: --verbose --dry-run --all-features

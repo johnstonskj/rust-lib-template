@@ -16,6 +16,11 @@ publish = true
 targets = ["x86_64-unknown-linux-gnu"]
 
 [features]
+{% if use_no_std %}
+default = ["std"]
+std = ["alloc"]
+alloc = []
+{% endif %}
 {% if crate_type == "bin" %}
 cli = ["dep:structopt", "dep:tracing", "dep:tracing-subscriber"]
 {% endif %}
@@ -34,6 +39,18 @@ required-features = ["cli"]
 
 [dev-dependencies]
 pretty_assertions = "1.4.1"
+
+# Uncomment for the #[serial] and #[parallel] marker attributes to add to
+# tests to manage concurrency where required.
+# serial_test = "3.2.0"
+
+# Uncomment for a replacement of the #[test] attribute that initializes 
+# logging and/or tracing infrastructure before running tests.
+# test-log = "0.2.18"
+
+# Uncomment for additional assertion macros for testing. For example,
+# assert_ge, assert_ok, assert_some, assert_pending, etc.
+# claims = "0.8.0"
 
 # The profile that 'cargo dist' will build with
 [profile.dist]
