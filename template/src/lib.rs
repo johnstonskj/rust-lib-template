@@ -67,7 +67,7 @@ extern crate alloc;
  * extern crate std;
  * ```
  */
-{% endif }
+{% endif %}
 
 // use ...
 
